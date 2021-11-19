@@ -35,7 +35,7 @@ public class AddressBookFrame extends JFrame {
   private void addContactsTable(Container pane) {
     pane.add(
       new TableScrollPane(
-        new ContactsTable(contacts), 3
+        new ContactsTable(contacts)
       )
     );
   }

@@ -8,6 +8,11 @@ import javax.swing.JTable;
 public class TableScrollPane extends JScrollPane {
   private final int rowsToShow;
   private final JTable table;
+
+
+  public TableScrollPane(JTable table) {
+    this(table, table.getRowCount());
+  }
   
   public TableScrollPane(JTable table, int rowsToShow) {
     super(table);
