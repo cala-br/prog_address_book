@@ -28,8 +28,8 @@ public class AddressBookFrame extends JFrame {
     );
     
     addContactsTable(pane);
-    addSearchBar(pane);
     pane.add(searchResult);
+    addSearchBar(pane);
   }
 
   private void addContactsTable(Container pane) {
