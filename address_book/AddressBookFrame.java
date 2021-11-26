@@ -1,18 +1,20 @@
 package address_book;
 
 import java.awt.Container;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 public class AddressBookFrame extends JFrame {
-  private final Contact[] contacts;
   private final JLabel searchResult = new JLabel("...");
+  private final ContactsTable contactsTable;
   
-  public AddressBookFrame(Contact ...contacts) {
+
+  public AddressBookFrame(List<Contact> contacts) {
     super();
-    this.contacts = contacts;
+    contactsTable = new ContactsTable(contacts);
 
     setDefaultCloseOperation(EXIT_ON_CLOSE);
 
@@ -30,13 +32,12 @@ public class AddressBookFrame extends JFrame {
     addContactsTable(pane);
     pane.add(searchResult);
     addSearchBar(pane);
+    addManageContactsBar(pane);
   }
 
   private void addContactsTable(Container pane) {
     pane.add(
-      new TableScrollPane(
-        new ContactsTable(contacts)
-      )
+      new TableScrollPane(contactsTable)
     );
   }
 
@@ -46,19 +47,37 @@ public class AddressBookFrame extends JFrame {
     );
   }
 
+  private void addManageContactsBar(Container pane) {
+    pane.add(
+      new ManageContactsPanel(
+        (e) -> { showCreateContactDialog(); },
+        (e) -> { contactsTable.removeSelectedContact(); },
+        (e) -> { contactsTable.removeAllRows(); }
+      )
+    );
+  }
+
+  private void showCreateContactDialog() {
+    var dialog = new CreateContactDialog((c) -> {
+      contactsTable.addContact(c);
+    });
+    
+    dialog.setVisible(true);
+  }
+
 
   private void search(String searchString) {
     var contact = findFirstOrNull(searchString);
 
     searchResult.setText(contact == null
       ? "No match..."
-      : contact.toFullNameString()
+      : contact.tel
     );
   }
 
   private Contact findFirstOrNull(String searchString) {
-    for (var contact : contacts) {
-      if (contact.matches(searchString)) {
+    for (var contact : contactsTable.contacts) {
+      if (contact.surname.contains(searchString)) {
         return contact;
       }
     }
