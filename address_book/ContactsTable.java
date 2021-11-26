@@ -6,30 +6,25 @@ import javax.swing.JTable;
 
 public class ContactsTable extends JTable {
   public final List<Contact> contacts;
+  private final ContactsTableModel model;
 
   public ContactsTable(List<Contact> contacts) {
     super(new ContactsTableModel());
 
     this.contacts = contacts;
-    addContacts();
+    model = (ContactsTableModel)getModel();
+    initContacts();
   }
 
 
   public void addContact(Contact contact) {
-    getCTModel().addRow(
-      contact.toArray()
-    );
-    
+    model.addContact(contact);
     contacts.add(contact);
   }
 
   public void removeAllRows() {
-    var model = getCTModel();
-    var i = model.getRowCount() - 1;
-    
-    for (; i >= 0; i--) {
-      removeRow(getCTModel(), i);
-    }
+    model.removeAllContacts();
+    contacts.clear();
   }
 
   public void removeSelectedContact() {    
@@ -38,27 +33,12 @@ public class ContactsTable extends JTable {
       return;
     }
 
-    removeRow(getCTModel(), row);
-  }
-
-  private void removeRow(ContactsTableModel model, int i) {
-    model.removeRow(i);
-    contacts.remove(i);
+    model.removeRow(row);
+    contacts.remove(row);
   }
 
 
-  private void addContacts() {
-    var model = getCTModel();
-    
-    for (var contact : contacts) {
-      model.addRow(
-        contact.toArray()
-      );
-    }
-  }
-
-
-  private ContactsTableModel getCTModel() {
-    return (ContactsTableModel)getModel(); 
+  private void initContacts() {
+    model.addContacts(contacts);
   }
 }
