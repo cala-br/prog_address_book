@@ -1,8 +1,6 @@
 package address_book;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.ScrollPane;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -35,20 +33,22 @@ public class CreateContactDialog extends JDialog {
       setVisible(false);
     });
 
-    initLayout();
+    setLayout(new BorderLayout());
     populate();
     pack();
   }
 
-  private void initLayout() {
-    var pane = getContentPane();
-    pane.setLayout(
-      new BorderLayout()
+  private void populate() {
+    final var scrollPane = new JScrollPane(
+      createCenterPanel()
     );
+    
+    add(scrollPane, BorderLayout.CENTER);
+    add(createButton, BorderLayout.SOUTH);
   }
 
-  private void populate() {
-    var centerPanel = new JPanel();
+  private JPanel createCenterPanel() {
+    final var centerPanel = new JPanel();
     centerPanel.setLayout(
       new BoxLayout(centerPanel, BoxLayout.Y_AXIS)
     );
@@ -58,7 +58,6 @@ public class CreateContactDialog extends JDialog {
     centerPanel.add(addressField);
     centerPanel.add(phoneField);
 
-    add(new JScrollPane(centerPanel), BorderLayout.CENTER);
-    add(createButton, BorderLayout.SOUTH);
+    return centerPanel;
   }
 }
