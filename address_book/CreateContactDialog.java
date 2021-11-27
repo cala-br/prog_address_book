@@ -36,7 +36,6 @@ public class CreateContactDialog extends JDialog {
       createCenterPanel()
     );
 
-    
     add(scrollPane, BorderLayout.CENTER);
     add(container, BorderLayout.SOUTH);
   }
