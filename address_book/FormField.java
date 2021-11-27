@@ -1,22 +1,26 @@
 package address_book;
 
-import java.awt.FlowLayout;
+import java.awt.BorderLayout;
 
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class FormField extends JPanel {
   private final JLabel label;
-  private final JTextField field = new JTextField(20);
+  private final JTextField field = new JTextField(10);
   
-  public FormField(String label) {
+  public FormField(String labelText) {
     super();
-    this.label = new JLabel(label);
-  
-    setLayout(new FlowLayout());
-    add(this.label);
-    add(field);
+    label = new JLabel(labelText);
+
+    setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
+    label.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 8));
+
+    setLayout(new BorderLayout());
+    add(label, BorderLayout.WEST);
+    add(field, BorderLayout.EAST);
   }
 
   public String getText() {
