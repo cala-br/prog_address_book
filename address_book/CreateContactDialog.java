@@ -66,15 +66,18 @@ public class CreateContactDialog extends JDialog {
 
 
   private void createContact() {
-    onCreate.invoke(
-      new Contact(
-        nameField.getText(),
-        surnameField.getText(),
-        addressField.getText(),
-        phoneField.getText()
-      )
+    final var contact = new Contact(
+      nameField.getText(),
+      surnameField.getText(),
+      addressField.getText(),
+      phoneField.getText()
     );
 
+    if (contact.toFullNameString().isBlank()) {
+      return;
+    }
+    
+    onCreate.invoke(contact);
     setVisible(false);
   }
 }
